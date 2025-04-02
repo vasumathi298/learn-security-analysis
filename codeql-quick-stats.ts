@@ -51,6 +51,7 @@ function main() {
   const filePath = path.resolve(process.argv[2]);
   const option = process.argv[3];
   const sarifLog = readSarifFile(filePath);
+  //console.log(sarifLog.runs.length);
   
   // Assuming we're interested in the results from the first run
   if (sarifLog.runs.length === 0) {

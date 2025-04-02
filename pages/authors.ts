@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import Author from '../models/author';
 import express from 'express';
+import escapeHtml from 'escape-html';
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ router.get('/', async (_, res: Response) => {
   try {
     const data: string[] = await Author.getAllAuthors({ family_name: 1 });
     if (data.length > 0) {
-      res.send(data);
+      const escapedData = data.map(author => escapeHtml(author));
+      res.send(escapedData);
     } else {
       res.send('No authors found');
     }

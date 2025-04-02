@@ -8,11 +8,18 @@ import authorRouter from "./pages/authors";
 import createBookRouter from "./pages/create_book";
 import bookDetailsRouter from "./pages/book_details";
 
+import { appRateLimiter } from "./sanitizers/rateLimiter";
+
 // Create express app
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors(
+    {
+        origin: 'http://localhost:3000'
+    }
+));
+app.use(appRateLimiter);
 app.use('/home', homeRouter);
 app.use('/available', availableRouter);
 app.use('/books', bookRouter);

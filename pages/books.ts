@@ -1,21 +1,23 @@
+import escapeHtml from 'escape-html';  // Import escapeHtml
 import Book from '../models/book';
 import Author from '../models/author';
 import express from 'express';
 
 const router = express.Router();
 
-
+// Function to show books with escaped HTML
 const showBooks = async (): Promise<string[] | void> => {
   try {
-    const books = await Book.getAllBooksWithAuthors('title author', {title: 1});
+    const books = await Book.getAllBooksWithAuthors('title author', { title: 1 });
     return books.map((b) => {
       const authorName = new Author(b.author).name; // Assuming 'Author' returns the author's name
-      return `${b._id} : ${b.title} : ${authorName}`;
+      return `${b._id} : ${escapeHtml(b.title)} : ${escapeHtml(authorName)}`; // Escape title and author name
     });
   } catch (err) {
     console.log('Could not get books ' + err);
   }
-}
+};
+
 /**
  * @route GET /books
  * @returns an array of strings, where each string contains the book ID, title, and author name
